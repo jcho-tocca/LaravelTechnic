@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 
 class PostController extends Controller
@@ -32,7 +31,7 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\PostRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(PostRequest $request)
@@ -70,7 +69,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\PostRequest $request
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
