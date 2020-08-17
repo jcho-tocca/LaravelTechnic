@@ -25,7 +25,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('post.create');
     }
 
     /**
@@ -36,7 +36,17 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'contents' => 'required'
+        ]);
+
+        $values = $request->except('_token');
+        $values['user_id'] = auth()->id();
+        
+        $post = Post::create($values);
+        
+        return redirect()->route('post.edit', $post->id)->with('success', '登録に成功しました。');
     }
 
     /**
@@ -47,7 +57,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('post.show', compact('post'));
     }
 
     /**
@@ -58,7 +68,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('post.edit', compact('post'));
     }
 
     /**
@@ -70,7 +80,15 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'contents' => 'required'
+        ]);
+
+        $values = $request->except('_token');
+        $post->update($values);
+     
+        return redirect()->route('post.edit', $post->id)->with('success', '編集に成功しました。');
     }
 
     /**
@@ -81,6 +99,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+     
+        return redirect('post')->with('success', '削除に成功しました。');
     }
 }
