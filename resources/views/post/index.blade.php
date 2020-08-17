@@ -16,7 +16,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach ($data as $val)
+			@foreach ($posts as $val)
 			<tr class="d-flex">
 				<th class="col-1">{{ $val->id }}</th>
 				<td class="col-5"><a href="{{ route('post.show', $val->id) }}">{{ $val->title }}</a></td>
@@ -28,6 +28,7 @@
 			@endforeach
 		</tbody>
 	  </table>
+	  {{ $posts->links() }}
 </div>
 @endsection
 @section('script')
