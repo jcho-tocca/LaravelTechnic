@@ -23,16 +23,31 @@
 				<td class="col-2">{{ $val->updated_at }}</td>
 				<td class="col-2">{{ $val->created_at }}</td>
 				<td class="col-1"><a class="btn btn-success" href="{{ route('post.edit', $val->id) }}">編集</td>
-				<td class="col-1">
-					<form action="{{ route('post.show', $val->id) }}" method="POST">
-						@csrf
-						@method('DELETE')
-						<button class="btn btn-danger del" href="{{ route('post.show', $val->id) }}">削除</button>
-					</form>
-				</td>
+				<td class="col-1"><a class="btn btn-danger del" href="{{ route('post.show', $val->id) }}">削除</a></td>
 			  </tr>
 			@endforeach
 		</tbody>
 	  </table>
 </div>
+@endsection
+@section('script')
+<script>
+$(function () {
+	$('.del').on('click', function (e) {
+		e.preventDefault();
+
+		var href = $(this).prop('href');
+
+		if (confirm('本当に削除しますか？')) { 
+			$('<form/>', {action:href , method: 'post'})
+				.append($('<input/>', {type: 'hidden', name: '_token', value: $('meta[name="csrf-token"]').attr('content')}))
+				.append($('<input/>', {type: 'hidden', name: '_method', value: 'DELETE'}))
+				.appendTo(document.body)
+				.submit();
+		}
+
+		return false;
+	 });
+});
+</script>
 @endsection
