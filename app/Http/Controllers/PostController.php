@@ -14,7 +14,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $data = Post::all();
+        $data = auth()->user()->posts()->latest()->get();
         return view('post.index', compact('data'));
     }
 
@@ -52,6 +52,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        abort_if(auth()->id() !== $post->user_id, 403);
+
         return view('post.show', compact('post'));
     }
 
@@ -63,6 +65,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        abort_if(auth()->id() !== $post->user_id, 403);
+
         return view('post.edit', compact('post'));
     }
 
@@ -75,6 +79,8 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
+        abort_if(auth()->id() !== $post->user_id, 403);
+
         $values = $request->except('_token');
         $post->update($values);
      
@@ -89,6 +95,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        abort_if(auth()->id() !== $post->user_id, 403);
+
         $post->delete();
      
         return redirect('post')->with('success', '削除に成功しました。');
